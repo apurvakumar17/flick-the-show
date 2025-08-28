@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import leftArrow from "../assets/carousel_left.png";
+import rightArrow from "../assets/carousel_right.png";
 
 function MainCarousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -50,13 +52,13 @@ function MainCarousel() {
                 onClick={prevSlide}
                 className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-30 p-2 text-2xl text-white transition hover:bg-opacity-50"
             >
-                &#10094;
+                <img src={leftArrow} className='h-4'></img>
             </button>
             <button
                 onClick={nextSlide}
                 className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-30 p-2 text-2xl text-white transition hover:bg-opacity-50"
             >
-                &#10095;
+                <img src={rightArrow} className='h-4'></img>
             </button>
 
             {/* Slider indicators */}

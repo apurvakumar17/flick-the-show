@@ -6,31 +6,31 @@ const TheatreList = () => {
     const theatres = [
         {
             id: 1,
-            logoUrl: "http://googleusercontent.com/file_content/0", 
+            logoUrl: "/Theatre Logo/inox.png", 
             theatreName: "INOX Janakpuri, Janak Place",
             location: "",
         },
         {
             id: 2,
-            logoUrl: "http://googleusercontent.com/file_content/0",
+            logoUrl: "/Theatre Logo/pvr.png",
             theatreName: "PVR Vegas, Dwarka",
             location: "",
         },
         {
             id: 3,
-            logoUrl: "http://googleusercontent.com/file_content/0",
+            logoUrl: "/Theatre Logo/m2k.png",
             theatreName: "M2K Rohini, Sec-3",
             location: "",
         },
         {
             id: 4,
-            logoUrl: "http://googleusercontent.com/file_content/0",
+            logoUrl: "/Theatre Logo/cinepolis.png",
             theatreName: "Cinepolis Unity One, Rohini",
             location: "",
         },
         {
             id: 5,
-            logoUrl: "http://googleusercontent.com/file_content/0",
+            logoUrl: "/Theatre Logo/miraj.png",
             theatreName: "Chand Miraj Cinemas, Mayur Vihar Phase 1",
             location: "",
         },
