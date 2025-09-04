@@ -8,7 +8,7 @@ const MovieCard = ({ title, genres, imageUrl }) => {
             <img
                 src={imageUrl}
                 alt={title}
-                className="w-full rounded-2xl bg-red-600 h-100" // Adjust height as needed
+                className="w-full rounded-2xl bg-gray-200 h-100" // Adjust height as needed
             />
             <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800 truncate">

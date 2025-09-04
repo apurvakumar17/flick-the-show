@@ -32,7 +32,7 @@ export default function Signup() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 banner-bg">
             <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md transition delay-150 ease-in-out">
                 <div>
                     <Link to="/" replace>

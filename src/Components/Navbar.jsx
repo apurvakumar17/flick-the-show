@@ -11,7 +11,7 @@ function Navbar() {
     };
 
     return (
-        <div className='h-14 w-full bg-gray-300 mx-3.5 mt-3.5 rounded-2xl p-3 py-6 flex justify-between items-center'>
+        <div className='h-14 w-full bg-(--md-sys-color-surface-container) mx-3.5 mt-3.5 rounded-2xl p-3 py-6 flex justify-between items-center'>
             <Link to="/" replace>
                 <img src="/flick_t.png" className='h-14 mr-2 hover:cursor-pointer' />
             </Link>

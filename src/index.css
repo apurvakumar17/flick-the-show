@@ -5,6 +5,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+/*Light Mode Colour Pallete*/
 :root,
 :host {
     --md-sys-color-background: #fff8f8;
@@ -44,4 +45,53 @@ body {
     --md-sys-color-on-error: #ffffff;
     --md-sys-color-error-container: #ffdad6;
     --md-sys-color-on-error-container: #410002;
+}
+
+
+/*Dark Mode Colour Pallete*/
+/* :root,
+:host {
+    --md-sys-color-background: #1e0f14;
+    --md-sys-color-on-background: #f9dbe2;
+    --md-sys-color-surface: #1e0f14;
+    --md-sys-color-surface-dim: #1e0f14;
+    --md-sys-color-surface-bright: #483439;
+    --md-sys-color-surface-container-lowest: #190a0e;
+    --md-sys-color-surface-container-low: #27171c;
+    --md-sys-color-surface-container: #2c1b20;
+    --md-sys-color-surface-container-high: #37252a;
+    --md-sys-color-surface-container-highest: #433035;
+    --md-sys-color-on-surface: #f9dbe2;
+    --md-sys-color-surface-variant: #5b3f47;
+    --md-sys-color-on-surface-variant: #e3bdc6;
+    --md-sys-color-inverse-surface: #f9dbe2;
+    --md-sys-color-inverse-on-surface: #3e2b31;
+    --md-sys-color-outline: #aa8891;
+    --md-sys-color-outline-variant: #5b3f47;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-surface-tint: #ffb1c8;
+    --md-sys-color-primary: #ffb1c8;
+    --md-sys-color-on-primary: #650033;
+    --md-sys-color-primary-container: #dc0076;
+    --md-sys-color-on-primary-container: #ffffff;
+    --md-sys-color-inverse-primary: #b90063;
+    --md-sys-color-secondary: #ffb1c8;
+    --md-sys-color-on-secondary: #650033;
+    --md-sys-color-secondary-container: #810644;
+    --md-sys-color-on-secondary-container: #ffc7d6;
+    --md-sys-color-tertiary: #ffb4a3;
+    --md-sys-color-on-tertiary: #621100;
+    --md-sys-color-tertiary-container: #d63000;
+    --md-sys-color-on-tertiary-container: #ffffff;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffdad6;
+} */
+
+.banner-bg {
+    background-image: url("./Main_Banner3.png");
+    background-size: cover;
+    background-position: center;
 }
