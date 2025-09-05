@@ -26,6 +26,8 @@ function Navbar() {
                 className="transition delay-150 ease-in-out border-2 border-(--md-sys-color-outline) rounded-3xl sm:mx-6 md:mx-12 lg:mx-24 xl:mx-38 h-10 bg-(--md-sys-color-inverse-on-surface) text-(--md-sys-color-on-surface-variant) px-5 w-[25vw] placeholder-(--md-sys-color-on-surface-variant) font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-(--md-sys-color-primary)"
             />
 
+            {/* <MdSearch className="text-(--md-sys-color-on-surface-variant) text-xl bg-(--md-sys-color-inverse-on-surface) h-10 w-10 p-2 rounded-full hover:cursor-pointer" /> */}
+            
             {/* Auth Buttons */}
             {userLoggedIn ? (
                 <div className="flex items-center space-x-2">
