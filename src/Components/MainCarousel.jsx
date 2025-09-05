@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import leftArrow from "../assets/carousel_left.png";
 import rightArrow from "../assets/carousel_right.png";
 
@@ -35,14 +34,22 @@ function MainCarousel() {
         }, 3000);
 
         return () => clearInterval(slideInterval);
-    }, [nextSlide]);
+    }, []);
 
     return (
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8">
-            <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low)">
+            {/* Slide track */}
+            <div
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
                 {slides.map((slide, index) => (
                     <div key={index} className="flex-none w-full relative">
-                        <img src={slide.image} className="block w-full h-auto" alt={`Slide ${index + 1}`} />
+                        <img
+                            src={slide.image}
+                            className="block w-full h-auto rounded-lg bg-(--md-sys-color-surface-variant)"
+                            alt={`Slide ${index + 1}`}
+                        />
                     </div>
                 ))}
             </div>
@@ -50,15 +57,19 @@ function MainCarousel() {
             {/* Slider controls */}
             <button
                 onClick={prevSlide}
-                className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-30 p-2 text-2xl text-white transition hover:bg-opacity-50"
+                className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full 
+                           bg-(--md-sys-color-primary) text-(--md-sys-color-on-primary)
+                           p-2 transition hover:scale-105 shadow-md"
             >
-                <img src={leftArrow} className='h-4'></img>
+                <img src={leftArrow} className="h-4" alt="Previous" />
             </button>
             <button
                 onClick={nextSlide}
-                className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white bg-opacity-30 p-2 text-2xl text-white transition hover:bg-opacity-50"
+                className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full 
+                           bg-(--md-sys-color-primary) text-(--md-sys-color-on-primary)
+                           p-2 transition hover:scale-105 shadow-md"
             >
-                <img src={rightArrow} className='h-4'></img>
+                <img src={rightArrow} className="h-4" alt="Next" />
             </button>
 
             {/* Slider indicators */}
@@ -67,12 +78,15 @@ function MainCarousel() {
                     <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 w-2 rounded-full transition-all duration-300 ${currentSlide === index ? 'bg-white' : 'bg-white bg-opacity-50'}`}
+                        className={`h-2 w-2 rounded-full transition-all ease-in-out duration-300 
+                            ${currentSlide === index
+                                ? "bg-(--md-sys-color-primary) scale-115"
+                                : "bg-(--md-sys-color-outline-variant)"}`}
                     ></button>
                 ))}
             </div>
         </div>
-    )
+    );
 }
 
-export default MainCarousel
+export default MainCarousel;

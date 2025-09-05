@@ -6,7 +6,7 @@ const TheatreList = () => {
     const theatres = [
         {
             id: 1,
-            logoUrl: "/Theatre Logo/inox.png", 
+            logoUrl: "/Theatre Logo/inox.png",
             theatreName: "INOX Janakpuri, Janak Place",
             location: "",
         },
@@ -37,8 +37,11 @@ const TheatreList = () => {
     ];
 
     return (
-        <div className="mt-8 w-[90vw]">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Theatres near you</h2>
+        <div className="mt-8 w-[90vw] bg-(--md-sys-color-background)">
+            <h2 className="text-3xl font-bold text-(--md-sys-color-on-background) mb-6">
+                Theatres near you
+            </h2>
+
             <div className="space-y-4">
                 {theatres.map((theatre) => (
                     <TheatreCard
@@ -50,6 +53,7 @@ const TheatreList = () => {
                 ))}
             </div>
         </div>
+
     );
 };
 
