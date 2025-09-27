@@ -10,6 +10,7 @@ export const useAuth = () => useContext(AuthContext);
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [role, setRole] = useState(null); // "admin" | "user" | null
+    const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,6 +18,7 @@ export default function AuthProvider({ children }) {
             if (!u) {
                 setUser(null);
                 setRole(null);
+                setUserData(null);
                 setLoading(false);
                 return;
             }
@@ -25,10 +27,18 @@ export default function AuthProvider({ children }) {
 
             try {
                 const snap = await getDoc(doc(db, "users", u.uid));
-                setRole(snap.exists() ? snap.data().role : "user");
+                if (snap.exists()) {
+                    const data = snap.data();
+                    setRole(data.role);
+                    setUserData(data); // <-- includes name + email + role
+                } else {
+                    setRole("user");
+                    setUserData({ name: u.email, email: u.email, role: "user" }); // fallback
+                }
             } catch (err) {
                 console.error("Error fetching user role:", err);
                 setRole("user");
+                setUserData({ name: u.email, email: u.email, role: "user" });
             }
 
             setLoading(false);
@@ -48,7 +58,7 @@ export default function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, role, loading, logout, userLoggedIn: !!user }}>
+        <AuthContext.Provider value={{ user, role, userData, loading, logout, userLoggedIn: !!user }}>
             {!loading && children}
         </AuthContext.Provider>
     );

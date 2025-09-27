@@ -33,7 +33,7 @@ export default function Login() {
                 </Link>
             </div>
 
-            <div className="bg-(--md-sys-color-surface-container-low) shadow-lg rounded-2xl p-8 w-full max-w-md transition delay-150 ease-in-out">
+            <div className="bg-(--md-sys-color-surface-container-low)/85 shadow-lg rounded-2xl p-8 w-full max-w-md transition delay-150 ease-in-out">
 
 
 

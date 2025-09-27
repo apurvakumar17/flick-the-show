@@ -7,6 +7,8 @@ function Navbar() {
     const { userLoggedIn, logout, user, role } = useAuth();
 
     const handleLogout = async () => {
+        const confirmed = window.confirm("Are you sure you want to log out?");
+        if (!confirmed) return;
         await logout();
     };
 
@@ -27,7 +29,7 @@ function Navbar() {
             />
 
             {/* <MdSearch className="text-(--md-sys-color-on-surface-variant) text-xl bg-(--md-sys-color-inverse-on-surface) h-10 w-10 p-2 rounded-full hover:cursor-pointer" /> */}
-            
+
             {/* Auth Buttons */}
             {userLoggedIn ? (
                 <div className="flex items-center space-x-2">

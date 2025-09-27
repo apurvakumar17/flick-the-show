@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [adminKey, setAdminKey] = useState("");
@@ -13,6 +14,12 @@ export default function Signup() {
 
     const handleSignup = async () => {
         setError("");
+
+        if (!name.trim()) {
+            setError("Name is required");
+            return;
+        }
+
         try {
             const cred = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -20,6 +27,7 @@ export default function Signup() {
                 adminKey === import.meta.env.VITE_ADMIN_KEY;
 
             await setDoc(doc(db, "users", cred.user.uid), {
+                name,  
                 email,
                 role: isAdmin ? "admin" : "user",
                 createdAt: new Date().toISOString(),
@@ -45,7 +53,6 @@ export default function Signup() {
 
             <div className="bg-(--md-sys-color-surface-container-low)/85 shadow-lg rounded-2xl p-8 w-full max-w-md transition delay-150 ease-in-out">
 
-
                 {/* Heading */}
                 <h2 className="text-2xl font-bold text-center text-(--md-sys-color-on-surface) mb-6">
                     Create Account
@@ -53,6 +60,12 @@ export default function Signup() {
 
                 {/* Form fields */}
                 <div className="space-y-4">
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        className="w-full px-4 py-2 border-2 border-(--md-sys-color-outline) rounded-3xl focus:ring-2 focus:ring-(--md-sys-color-primary) outline-none transition delay-150 ease-in-out bg-(--md-sys-color-surface-container-lowest) text-(--md-sys-color-on-surface)"
+                        onChange={(e) => setName(e.target.value)}
+                    />
                     <input
                         type="email"
                         placeholder="Email"
@@ -65,12 +78,12 @@ export default function Signup() {
                         className="w-full px-4 py-2 border-2 border-(--md-sys-color-outline) rounded-3xl focus:ring-2 focus:ring-(--md-sys-color-primary) outline-none transition delay-150 ease-in-out bg-(--md-sys-color-surface-container-lowest) text-(--md-sys-color-on-surface)"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <input
+                    {/* <input
                         type="text"
                         placeholder="Admin Key (optional)"
                         className="w-full px-4 py-2 border-2 border-(--md-sys-color-outline) rounded-3xl focus:ring-2 focus:ring-(--md-sys-color-primary) outline-none transition delay-150 ease-in-out bg-(--md-sys-color-surface-container-lowest) text-(--md-sys-color-on-surface)"
                         onChange={(e) => setAdminKey(e.target.value)}
-                    />
+                    /> */}
 
                     {/* Signup button */}
                     <button
@@ -89,6 +102,5 @@ export default function Signup() {
                 </div>
             </div>
         </div>
-
     );
 }

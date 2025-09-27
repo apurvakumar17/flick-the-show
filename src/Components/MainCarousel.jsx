@@ -7,16 +7,16 @@ function MainCarousel() {
 
     const slides = [
         {
+            id: 1196943,
             image: "/posters/chaava_poster.jpg",
-            caption: { title: "First slide label", text: "Nulla vitae elit libero, a pharetra augue mollis interdum." }
         },
         {
+            id: 1383072,
             image: "/posters/mnarsimha_poster.jpg",
-            caption: { title: "Second slide label", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
         },
         {
+            id: 857598,
             image: "/posters/pushpa2_poster.jpg",
-            caption: { title: "Third slide label", text: "Praesent commodo cursus magna, vel scelerisque nisl consectetur." }
         }
     ];
 
