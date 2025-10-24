@@ -1,24 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import leftArrow from "../assets/carousel_left.png";
 import rightArrow from "../assets/carousel_right.png";
+import { api } from "../services/api";
 
 function MainCarousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
-
-    const slides = [
-        {
-            id: 1196943,
-            image: "/posters/chaava_poster.jpg",
-        },
-        {
-            id: 1383072,
-            image: "/posters/mnarsimha_poster.jpg",
-        },
-        {
-            id: 857598,
-            image: "/posters/pushpa2_poster.jpg",
-        }
-    ];
+    const [slides, setSlides] = useState([]); // Changed from slides1 to slides
+    const [loading, setLoading] = useState(true);
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -29,12 +17,49 @@ function MainCarousel() {
     };
 
     useEffect(() => {
+        if (slides.length === 0) return; // Don't start interval if no slides
+        
         const slideInterval = setInterval(() => {
             nextSlide();
         }, 3000);
 
         return () => clearInterval(slideInterval);
+    }, [slides.length]); // Depend on slides.length
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                setLoading(true);
+                const data = await api.getCarouselPosters();
+                setSlides(data);
+                console.log('Carousel data:', data); // Debug log
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+                setSlides([]); // Set empty array on error
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMovies();
     }, []);
+
+    // Show loading or empty state
+    if (loading) {
+        return (
+            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low) h-64 flex items-center justify-center">
+                <div className="text-(--md-sys-color-on-surface)">Loading carousel...</div>
+            </div>
+        );
+    }
+
+    if (slides.length === 0) {
+        return (
+            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low) h-64 flex items-center justify-center">
+                <div className="text-(--md-sys-color-on-surface)">No carousel images available</div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low)">
@@ -44,11 +69,15 @@ function MainCarousel() {
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
                 {slides.map((slide, index) => (
-                    <div key={index} className="flex-none w-full relative">
+                    <div key={slide._id || index} className="flex-none w-full relative">
                         <img
-                            src={slide.image}
+                            src={slide.posterLink}
                             className="block w-full h-auto rounded-lg bg-(--md-sys-color-surface-variant)"
-                            alt={`Slide ${index + 1}`}
+                            alt={slide.movieName || `Slide ${index + 1}`}
+                            onError={(e) => {
+                                console.error('Image failed to load:', slide.posterLink);
+                                e.target.style.display = 'none';
+                            }}
                         />
                     </div>
                 ))}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddPosterModal from "./AddPosterModal";
+import { api } from "../services/api";
 
 // Mock data to simulate the posters shown in the image
 const initialCarouselItems = [
@@ -25,8 +26,8 @@ const CarouselPosterCard = ({ item }) => {
             className="relative overflow-hidden rounded-xl border transition-all duration-300 hover:shadow-2xl"
         >
             <img
-                src={item.image}
-                alt={`Carousel Poster ${item.id}`}
+                src={item.posterLink}
+                alt={`Carousel Poster ${item.movieId}`}
                 className="w-full aspect-video object-cover"
                 onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/800x450/9CA3AF/FFFFFF?text=Image+Error" }}
             />
@@ -80,6 +81,21 @@ function EditCarouselPosters() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [movies, setMovies] = useState([]);
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const data = await api.getCarouselPosters();
+                setMovies(data);
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            }
+        };
+
+        fetchMovies();
+    }, []);
+
     return (
         <div
             className="pb-6 mt-4 border-b"
@@ -94,8 +110,8 @@ function EditCarouselPosters() {
                 </h1>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {initialCarouselItems.map((item) => (
-                        <CarouselPosterCard key={item.id} item={item} />
+                    {movies.map((item) => (
+                        <CarouselPosterCard key={item.movieId} item={item} />
                     ))}
 
                     <AddPosterCard onOpen={() => setIsModalOpen(true)} />
@@ -104,7 +120,7 @@ function EditCarouselPosters() {
 
             {/* Full-screen Modal */}
             <AddPosterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-            
+
         </div>
     );
 }
