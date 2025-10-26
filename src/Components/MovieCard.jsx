@@ -6,6 +6,12 @@ const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 const MovieCard = ({ movie }) => {
     const [poster, setPoster] = useState(null);
+    
+    // Add null/undefined check for movie prop
+    if (!movie) {
+        return null; // or return a loading placeholder
+    }
+    
     const handleClick = () => {
         if (movie.movieId) {
             window.open(`/movie/${movie.movieId}`, '_blank');
@@ -27,7 +33,9 @@ const MovieCard = ({ movie }) => {
             }
         };
 
-        fetchPoster();
+        if (movie.movieId) {
+            fetchPoster();
+        }
     }, [movie.movieId]);
 
 
