@@ -143,7 +143,7 @@ const AddMovieModal = ({ isOpen, onClose }) => {
                         </div>
                     </div>
 
-                    <iframe className='w-[30%] pl-12 rounded-2xl' src={convertToEmbedUrl(trailerUrl)} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                    <iframe className='w-[30%] pl-12' src={convertToEmbedUrl(trailerUrl)} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                 </div>
 
 

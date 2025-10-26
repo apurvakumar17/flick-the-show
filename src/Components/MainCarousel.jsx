@@ -47,8 +47,9 @@ function MainCarousel() {
     // Show loading or empty state
     if (loading) {
         return (
-            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low) h-64 flex items-center justify-center">
-                <div className="text-(--md-sys-color-on-surface)">Loading carousel...</div>
+            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg mt-8 bg-(--md-sys-color-surface-container-low) h-64 flex items-center justify-center px-5">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto m-4" style={{ borderColor: "var(--md-sys-color-primary)" }}></div>
+                <div className="text-(--md-sys-color-on-surface) ml-4">Loading ...</div>
             </div>
         );
     }
@@ -72,8 +73,13 @@ function MainCarousel() {
                     <div key={slide._id || index} className="flex-none w-full relative">
                         <img
                             src={slide.posterLink}
-                            className="block w-full h-auto rounded-lg bg-(--md-sys-color-surface-variant)"
+                            className="block w-full h-auto rounded-lg bg-(--md-sys-color-surface-variant) cursor-pointer transition-transform duration-300 hover:scale-105"
                             alt={slide.movieName || `Slide ${index + 1}`}
+                            onClick={() => {
+                                if (slide.movieId) {
+                                    window.open(`/movie/${slide.movieId}`, '_blank');
+                                }
+                            }}
                             onError={(e) => {
                                 console.error('Image failed to load:', slide.posterLink);
                                 e.target.style.display = 'none';

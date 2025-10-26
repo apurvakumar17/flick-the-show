@@ -57,6 +57,17 @@ const MoviePosterCard = ({ movie }) => {
         }
     };
 
+    const handlePosterClick = (e) => {
+        // Prevent click when clicking on delete button
+        if (e.target.closest('button')) {
+            return;
+        }
+        
+        if (movie.movieId) {
+            window.open(`/movie/${movie.movieId}`, '_blank');
+        }
+    };
+
     return (
         <div
             style={{
@@ -65,7 +76,8 @@ const MoviePosterCard = ({ movie }) => {
                 color: "var(--md-sys-color-on-surface)",
                 boxShadow: "0 4px 6px var(--md-sys-color-shadow)"
             }}
-            className="group relative w-full rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl"
+            className="group relative w-full rounded-xl overflow-hidden border transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            onClick={handlePosterClick}
         >
             {/* Poster Image */}
             <div className="aspect-[2/3] overflow-hidden">
@@ -119,7 +131,7 @@ const AddMovieCard = ({ onOpen }) => {
                 color: "var(--md-sys-color-on-surface-variant)",
                 borderColor: "var(--md-sys-color-outline)"
             }}
-            className="hover:cursor-pointer w-full aspect-[2/3] rounded-xl shadow-inner transition-all duration-300 flex flex-col items-center justify-center p-4 border-4 border-dashed transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-primary-container"
+            className="hover:cursor-pointer w-full rounded-xl shadow-inner transition-all duration-300 flex flex-col items-center justify-center p-4 border-4 border-dashed transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-primary-container"
         >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />

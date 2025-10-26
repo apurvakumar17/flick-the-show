@@ -6,6 +6,7 @@ import { RequireAuth, RequireAdmin } from "./Components/guards";
 import Landing from './Pages/Landing'
 import Login from './Pages/Login'
 import Signup from './Pages/SignUp'
+import MoviePage from './Pages/MoviePage';
 import AdminDashboard from './Pages/AdminDashboard';
 import UserDashboard from './Pages/UserDashboard';
 
@@ -33,6 +34,7 @@ function App() {
 					} />
 
 					<Route path="/unauthorized" element={<Unauthorized />} />
+					<Route path="/movie/:id" element={<MoviePage />} />
 					<Route path="*" element={<h2>Not Found</h2>} />
 				</Routes>
 			</BrowserRouter>
