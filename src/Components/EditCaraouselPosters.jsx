@@ -11,8 +11,26 @@ const initialCarouselItems = [
 
 // Component for a single poster card with a delete button
 const CarouselPosterCard = ({ item }) => {
-    const handleDelete = () => {
-        console.log(`Deleting carousel item: ${item.id}`);
+    const handleDelete = async () => {
+        // Show confirmation dialog
+        const confirmed = window.confirm(
+            `Are you sure you want to delete this carousel poster?\n\nMovie ID: ${item.movieId}\nThis action cannot be undone.`
+        );
+        
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            // Call the delete API
+            await api.deleteCarouselPoster(item._id);
+            window.location.reload()
+            
+            console.log(`Successfully deleted carousel poster: ${item.movieId}`);
+        } catch (error) {
+            console.error('Error deleting carousel poster:', error);
+            // alert('Failed to delete the poster. Please try again.');
+        }
     };
 
     return (
@@ -39,7 +57,7 @@ const CarouselPosterCard = ({ item }) => {
                     backgroundColor: "var(--md-sys-color-error)",
                     color: "var(--md-sys-color-on-error)"
                 }}
-                className="absolute top-2 right-2 p-2 rounded-full opacity-90 transition-opacity duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-error-container shadow-md"
+                className="absolute top-2 right-2 p-2 rounded-full opacity-90 transition-opacity duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-error-container shadow-md hover:cursor-pointer"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -88,6 +106,7 @@ function EditCarouselPosters() {
             try {
                 const data = await api.getCarouselPosters();
                 setMovies(data);
+                console.log(data)
             } catch (error) {
                 console.error('Error fetching movies:', error);
             }
@@ -95,6 +114,11 @@ function EditCarouselPosters() {
 
         fetchMovies();
     }, []);
+
+    // // Function to handle poster deletion
+    // const handlePosterDelete = (movieId) => {
+    //     setMovies(prevMovies => prevMovies.filter(movie => movie.movieId !== movieId));
+    // };
 
     return (
         <div
@@ -111,7 +135,10 @@ function EditCarouselPosters() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {movies.map((item) => (
-                        <CarouselPosterCard key={item.movieId} item={item} />
+                        <CarouselPosterCard 
+                            key={item.movieId} 
+                            item={item} 
+                        />
                     ))}
 
                     <AddPosterCard onOpen={() => setIsModalOpen(true)} />

@@ -70,7 +70,7 @@ const AddPosterModal = ({ isOpen, onClose }) => {
                                 onChange={(e) => setMovieName(e.target.value)}
                             />
                             <button
-                                className="px-6 py-3 rounded-full mr-2 transition w-[25%]"
+                                className="px-6 py-3 rounded-full mr-2 transition w-[25%] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-primary-container hover:cursor-pointer"
                                 style={{
                                     backgroundColor: "var(--md-sys-color-primary)",
                                     color: "var(--md-sys-color-on-primary)"
@@ -80,7 +80,7 @@ const AddPosterModal = ({ isOpen, onClose }) => {
                                 Search movies
                             </button>
                             <button
-                                className="px-6 py-3 rounded-full transition w-[20%]"
+                                className="px-6 py-3 rounded-full transition w-[20%] hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-primary-container hover:cursor-pointer"
                                 style={{
                                     backgroundColor: "var(--md-sys-color-surface-variant)",
                                     color: "var(--md-sys-color-on-surface-variant)"
@@ -178,22 +178,22 @@ const AddPosterModal = ({ isOpen, onClose }) => {
                                 };
 
                                 console.log("Submitting data:", data);
-
+                                // window.reload();
+                                onClose();
                                 const result = await api.addCarouselPoster(data);
                                 console.log("Success:", result);
-
                                 // Reset form and close modal
                                 setSelectedMovie(null);
                                 setPosterUrl("");
                                 setMovieName("");
                                 setSearchResults([]);
-                                onClose();
+                                
 
-                                alert("Carousel poster added successfully!");
+                                // alert("Carousel poster added successfully!");
 
                             } catch (error) {
                                 console.error("Error adding carousel poster:", error);
-                                alert("Failed to add carousel poster. Please try again.");
+                                // alert("Failed to add carousel poster. Please try again.");
                             }
                         }}
                     >
