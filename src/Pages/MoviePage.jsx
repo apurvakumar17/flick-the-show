@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from '../Components/Footer';
+import { api } from '../services/api';
+import { convertToEmbedUrl } from '../utils/youtubeUtils';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -12,6 +14,8 @@ export default function MoviePage() {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [trailerUrl, setTrailerUrl] = useState(null);
+    const [trailerLoading, setTrailerLoading] = useState(false);
 
     const getMovieData = async () => {
         setLoading(true);
@@ -36,9 +40,28 @@ export default function MoviePage() {
         }
     };
 
+    const getMovieTrailer = async () => {
+        if (!id) return;
+        setTrailerLoading(true);
+        try {
+            const trailerData = await api.getMovieTrailer(id);
+            if (trailerData && trailerData.trim()) {
+                const embedUrl = convertToEmbedUrl(trailerData);
+                if (embedUrl) {
+                    setTrailerUrl(embedUrl);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching trailer:", error);
+        } finally {
+            setTrailerLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (id) {
             getMovieData();
+            getMovieTrailer();
         }
     }, [id]);
 
@@ -176,6 +199,40 @@ export default function MoviePage() {
                                 {movie.overview}
                             </p>
                         </div>
+
+                        {/* Trailer Section */}
+                        {trailerUrl && (
+                            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                                <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--md-sys-color-on-background)" }}>
+                                    Trailer
+                                </h2>
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+                                    <iframe
+                                        className="w-full h-full"
+                                        src={trailerUrl}
+                                        title="Movie Trailer"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerPolicy="strict-origin-when-cross-origin"
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            </div>
+                        )}
+
+                        {trailerLoading && (
+                            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                                <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--md-sys-color-on-background)" }}>
+                                    Trailer
+                                </h2>
+                                <div className="flex items-center justify-center h-48">
+                                    <div className="text-center">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 mx-auto mb-2" style={{ borderColor: "var(--md-sys-color-primary)" }}></div>
+                                        <p style={{ color: "var(--md-sys-color-on-surface)" }}>Loading trailer...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Movie Stats Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

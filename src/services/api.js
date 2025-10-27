@@ -48,4 +48,16 @@ export const api = {
     });
     return response.json();
   },
+
+  // Get movie trailer by movieId
+  getMovieTrailer: async (movieId) => {
+    const response = await fetch(`${API_BASE_URL}/getMovieTrailer/${movieId}`, {
+      method: 'GET',
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    // The backend returns a plain string, not JSON
+    return response.text();
+  },
 };

@@ -1,34 +1,10 @@
 import React, { useState } from 'react';
 import { api } from "../services/api";
+import { convertToEmbedUrl } from "../utils/youtubeUtils";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
-
-function convertToEmbedUrl(urlString) {
-    try {
-        if (urlString.includes("youtu.be/")) {
-            const videoIdMatch = urlString.match(/(?:youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-            if (videoIdMatch && videoIdMatch[1]) {
-                return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
-            }
-        }
-
-        const url = new URL(urlString);
-        if (url.hostname.includes('youtube.com') || url.hostname.includes('youtu.be')) {
-            const videoId = url.searchParams.get('v');
-            if (videoId) return `https://www.youtube.com/embed/${videoId}`;
-        }
-
-        const pathParts = url.pathname.split('/');
-        const lastPart = pathParts[pathParts.length - 1];
-        if (lastPart.length === 11) return `https://www.youtube.com/embed/${lastPart}`;
-
-        return null;
-    } catch {
-        return null;
-    }
-}
 
 const AddMovieModal = ({ isOpen, onClose }) => {
     const [trailerUrl, setTrailerUrl] = useState("");
