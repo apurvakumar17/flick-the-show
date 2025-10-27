@@ -167,6 +167,9 @@ export default function Carousel({
             ref={containerRef}
             className="my-4 relative overflow-hidden w-full p-6 rounded-2xl bg-(--md-sys-color-surface-container-lowest)"
         >
+            <h2 className="text-3xl font-bold text-(--md-sys-color-on-background) mb-6">
+                Currently Screening
+            </h2>
             <motion.div
                 className="flex"
                 drag="x"

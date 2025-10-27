@@ -16,7 +16,7 @@ const CarouselPosterCard = ({ item }) => {
         const confirmed = window.confirm(
             `Are you sure you want to delete this carousel poster?\n\nMovie ID: ${item.movieId}\nThis action cannot be undone.`
         );
-        
+
         if (!confirmed) {
             return;
         }
@@ -25,11 +25,21 @@ const CarouselPosterCard = ({ item }) => {
             // Call the delete API
             await api.deleteCarouselPoster(item._id);
             window.location.reload()
-            
+
             console.log(`Successfully deleted carousel poster: ${item.movieId}`);
         } catch (error) {
             console.error('Error deleting carousel poster:', error);
             // alert('Failed to delete the poster. Please try again.');
+        }
+    };
+    const handlePosterClick = (e) => {
+        // Prevent click when clicking on delete button
+        if (e.target.closest('button')) {
+            return;
+        }
+
+        if (item.movieId) {
+            window.open(`/movie/${item.movieId}`, '_blank');
         }
     };
 
@@ -41,7 +51,8 @@ const CarouselPosterCard = ({ item }) => {
                 color: "var(--md-sys-color-on-surface)",
                 boxShadow: "0 4px 6px var(--md-sys-color-shadow)"
             }}
-            className="relative overflow-hidden rounded-xl border transition-all duration-300 hover:shadow-2xl"
+            className="relative overflow-hidden rounded-xl border transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            onClick={handlePosterClick}
         >
             <img
                 src={item.posterLink}
@@ -135,9 +146,9 @@ function EditCarouselPosters() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {movies.map((item) => (
-                        <CarouselPosterCard 
-                            key={item.movieId} 
-                            item={item} 
+                        <CarouselPosterCard
+                            key={item.movieId}
+                            item={item}
                         />
                     ))}
 

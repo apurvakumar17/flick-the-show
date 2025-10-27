@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Footer from '../Components/Footer';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -377,11 +378,12 @@ export default function MoviePage() {
             </div>
 
             {/* Footer */}
-            <div className="text-center py-8 border-t border-white/10">
+            {/* <div className="text-center py-8 border-t border-white/10">
                 <p style={{ color: "var(--md-sys-color-on-surface-variant)" }}>
                     Flick The Show
                 </p>
-            </div>
+            </div> */}
+            <Footer></Footer>
         </div>
     );
 }

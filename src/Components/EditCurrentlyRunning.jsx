@@ -84,7 +84,7 @@ const MoviePosterCard = ({ movie }) => {
                 <img
                     src={poster || "https://placehold.co/300x450/9CA3AF/FFFFFF?text=Poster+Missing"}
                     alt={movie.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500"
                 />
             </div>
 
@@ -170,7 +170,7 @@ export default function EditCurrentlyRunningMovies() {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {runningMovies.map((movie) => (
-                    <MoviePosterCard key={movie.id} movie={movie} />
+                    <MoviePosterCard key={movie.movieId} movie={movie} />
                 ))}
                 <AddMovieCard onOpen={() => setIsModalOpen(true)} />
             </div>
