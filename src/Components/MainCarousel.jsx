@@ -77,7 +77,7 @@ function MainCarousel() {
                             alt={slide.movieName || `Slide ${index + 1}`}
                             onClick={() => {
                                 if (slide.movieId) {
-                                    window.open(`/movie/${slide.movieId}`, '_blank');
+                                    window.open(`/movie/${slide.movieId}`, '_self');
                                 }
                             }}
                             onError={(e) => {

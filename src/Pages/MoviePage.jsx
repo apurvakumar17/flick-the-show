@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from '../Components/Footer';
+import Navbar from '../Components/Navbar';
 import { api } from '../services/api';
 import { convertToEmbedUrl } from '../utils/youtubeUtils';
 
@@ -16,6 +17,8 @@ export default function MoviePage() {
     const [error, setError] = useState(null);
     const [trailerUrl, setTrailerUrl] = useState(null);
     const [trailerLoading, setTrailerLoading] = useState(false);
+    const [isRunning, setIsRunning] = useState(false);
+    const [runningCheckLoading, setRunningCheckLoading] = useState(true);
 
     const getMovieData = async () => {
         setLoading(true);
@@ -62,6 +65,19 @@ export default function MoviePage() {
         if (id) {
             getMovieData();
             getMovieTrailer();
+            // Check if movie is in currently running DB
+            (async () => {
+                try {
+                    setRunningCheckLoading(true);
+                    const running = await api.getMovies();
+                    const exists = Array.isArray(running) && running.some((m) => String(m.movieId) === String(id));
+                    setIsRunning(exists);
+                } catch (e) {
+                    setIsRunning(false);
+                } finally {
+                    setRunningCheckLoading(false);
+                }
+            })();
         }
     }, [id]);
 
@@ -139,6 +155,7 @@ export default function MoviePage() {
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "var(--md-sys-color-background)" }}>
+            {/* <Navbar /> */}
             {/* Hero Section with Backdrop */}
             <div className="relative h-96 md:h-[500px] overflow-hidden">
                 {movie.backdrop_path && (
@@ -176,15 +193,25 @@ export default function MoviePage() {
                             />
                             
                             {/* Book Tickets Button */}
-                            <button className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4"
-                                style={{ 
-                                    backgroundColor: "var(--md-sys-color-primary)",
-                                    color: "var(--md-sys-color-on-primary)",
-                                    boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
-                                }}
-                            >
-                                Book Tickets
-                            </button>
+                            {runningCheckLoading ? (
+                                <div className="w-full py-4 px-6 rounded-xl text-center" style={{ backgroundColor: "var(--md-sys-color-surface-variant)", color: "var(--md-sys-color-on-surface-variant)" }}>
+                                    Checking availability...
+                                </div>
+                            ) : isRunning ? (
+                                <button className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4"
+                                    style={{ 
+                                        backgroundColor: "var(--md-sys-color-primary)",
+                                        color: "var(--md-sys-color-on-primary)",
+                                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+                                    }}
+                                >
+                                    Book Tickets
+                                </button>
+                            ) : (
+                                <div className="w-full py-4 px-6 rounded-xl text-center font-medium" style={{ backgroundColor: "var(--md-sys-color-surface-variant)", color: "var(--md-sys-color-on-surface-variant)" }}>
+                                    Not screening currently
+                                </div>
+                            )}
                         </div>
                     </div>
 

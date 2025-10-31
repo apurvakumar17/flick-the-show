@@ -64,7 +64,7 @@ const MoviePosterCard = ({ movie }) => {
         }
         
         if (movie.movieId) {
-            window.open(`/movie/${movie.movieId}`, '_blank');
+            window.open(`/movie/${movie.movieId}`, '_self');
         }
     };
 

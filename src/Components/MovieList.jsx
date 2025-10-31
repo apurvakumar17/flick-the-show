@@ -7,8 +7,8 @@ const MovieList = () => {
     const [loading, setLoading] = useState(true);
     const [movielist, setmovielist] = useState([]);
     // Sample data for movies (replace with actual data from an API or prop)
-    
-    
+
+
     const movies = [
         {
             id: 1,
@@ -42,21 +42,21 @@ const MovieList = () => {
     ];
 
     useEffect(() => {
-            const fetchMovies = async () => {
-                try {
-                    setLoading(true);
-                    const data = await api.getMovies();
-                    setmovielist(data);
-                    console.log('Running Movie data:', data); // Debug log
-                } catch (error) {
-                    console.error('Error fetching movies:', error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-    
-            fetchMovies();
-        }, []);
+        const fetchMovies = async () => {
+            try {
+                setLoading(true);
+                const data = await api.getMovies();
+                setmovielist(data);
+                console.log('Running Movie data:', data); // Debug log
+            } catch (error) {
+                console.error('Error fetching movies:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMovies();
+    }, []);
 
     return (
         <div className="container mx-auto px-4 py-8 bg-(--md-sys-color-background)">
@@ -64,11 +64,9 @@ const MovieList = () => {
                 Currently Screening
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {movielist.map((item) => (
-                    <MovieCard
-                        movie={item}
-                    />
+            <div className="flex overflow-x-auto space-x-6 p-4">
+                {movielist.map((item, index) => (
+                    <MovieCard key={index} movie={item} />
                 ))}
             </div>
         </div>

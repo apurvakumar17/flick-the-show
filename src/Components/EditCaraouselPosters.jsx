@@ -39,7 +39,7 @@ const CarouselPosterCard = ({ item }) => {
         }
 
         if (item.movieId) {
-            window.open(`/movie/${item.movieId}`, '_blank');
+            window.open(`/movie/${item.movieId}`, '_self');
         }
     };
 

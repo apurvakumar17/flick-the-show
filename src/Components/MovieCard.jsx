@@ -14,7 +14,7 @@ const MovieCard = ({ movie }) => {
     
     const handleClick = () => {
         if (movie.movieId) {
-            window.open(`/movie/${movie.movieId}`, '_blank');
+            window.open(`/movie/${movie.movieId}`, '_self');
         }
     };
 
@@ -41,7 +41,7 @@ const MovieCard = ({ movie }) => {
 
     return (
         <div
-            className="p-6 bg-(--md-sys-color-surface-container-low) rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="min-w-[300px] max-w-[300px] p-6 bg-(--md-sys-color-surface-container-low) rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
             onClick={handleClick}
         >
             {/* Image */}
