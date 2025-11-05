@@ -98,13 +98,6 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
                             C11, C12, C13
                         </p>
                     </div>
-
-                    {/* Download Button */}
-                    <div className="mt-6 flex justify-center">
-                        <button className="bg-pink-600 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-pink-700 transition">
-                            ⬇ Download
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ import Signup from './Pages/SignUp'
 import MoviePage from './Pages/MoviePage';
 import AdminDashboard from './Pages/AdminDashboard';
 import UserDashboard from './Pages/UserDashboard';
+import BookTicket from './Pages/BookTicket';
 
 // const AdminDashboard = () => <h1>Admin Dashboard</h1>;
 // const UserDashboard = () => <h1>User Dashboard</h1>;
@@ -35,6 +36,11 @@ function App() {
 
 					<Route path="/unauthorized" element={<Unauthorized />} />
 					<Route path="/movie/:id" element={<MoviePage />} />
+
+					<Route path="/book/:id" element={
+						<RequireAuth><BookTicket/></RequireAuth>
+					}/>
+					
 					<Route path="*" element={<h2>Not Found</h2>} />
 				</Routes>
 			</BrowserRouter>

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
@@ -12,6 +12,7 @@ const BACKDROP_BASE = "https://image.tmdb.org/t/p/w1280";
 
 export default function MoviePage() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -155,7 +156,6 @@ export default function MoviePage() {
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "var(--md-sys-color-background)" }}>
-            {/* <Navbar /> */}
             {/* Hero Section with Backdrop */}
             <div className="relative h-96 md:h-[500px] overflow-hidden">
                 {movie.backdrop_path && (
@@ -198,7 +198,9 @@ export default function MoviePage() {
                                     Checking availability...
                                 </div>
                             ) : isRunning ? (
-                                <button className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4"
+                                <button
+                                    onClick={() => navigate(`/book/${id}`)}
+                                    className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 cursor-pointer"
                                     style={{ 
                                         backgroundColor: "var(--md-sys-color-primary)",
                                         color: "var(--md-sys-color-on-primary)",
