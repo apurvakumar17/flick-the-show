@@ -73,7 +73,7 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
                     {/* Poster already shown as background and thumbnail */}
 
                     {/* Ticket Details */}
-                    <div className="space-y-2 text-sm text-white pt-70">
+                    <div className="space-y-2 text-sm text-white pt-50 lg:pt-70">
                         <p>
                             <span className="font-semibold">Booking ID:</span>{" "}
                             {movie.transactionId}

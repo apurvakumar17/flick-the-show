@@ -14,7 +14,7 @@ function PreviousBookings({ tickets = [] }) {
                 {tickets.map((movie) => (
                     <div key={movie.id} onClick={() => setSelectedMovie(movie)} className="cursor-pointer">
                         <MovieTicket
-                            movieId={movie.id}
+                            movieId={movie.movieId}
                             title={movie.title}
                             transactionId={movie.transactionId}
                             date={movie.date}

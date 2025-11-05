@@ -73,6 +73,7 @@ function UserDashboard() {
             time: t.showTimeDisplay || (t.showTime ? new Date(t.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''),
             theatreName: t.theatreName,
             movieId: t.movieId,
+            seats:t.seats
         }))
     }, [tickets, titles, todayStr])
 
@@ -89,6 +90,7 @@ function UserDashboard() {
             time: t.showTimeDisplay || (t.showTime ? new Date(t.showTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''),
             theatreName: t.theatreName,
             movieId: t.movieId,
+            seats:t.seats
         }))
     }, [tickets, titles, todayStr])
 
@@ -99,8 +101,8 @@ function UserDashboard() {
                 <div className='border-b border-[var(--md-sys-color-surface-container-high)]'>
                     <h1 className='text-3xl font-bold text-(--md-sys-color-on-background) my-3 text-left'>Welcome {userData?.name || "User"}</h1>
                 </div>
-                {!loading && <PreviousBookings tickets={previousTickets}></PreviousBookings>}
                 {!loading && <ActiveTickets tickets={activeTickets}></ActiveTickets>}
+                {!loading && <PreviousBookings tickets={previousTickets}></PreviousBookings>}
             </div>
             <Footer></Footer>
         </div>
