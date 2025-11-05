@@ -49,6 +49,30 @@ export const api = {
     return response.json();
   },
 
+  // Theatres
+  readTheatres: async () => {
+    const response = await fetch(`${API_BASE_URL}/readTheatres`);
+    return response.json();
+  },
+
+  resetTheatres: async () => {
+    const response = await fetch(`${API_BASE_URL}/resetTheatres`, {
+      method: 'POST'
+    });
+    return response.json();
+  },
+
+  addFilledSeats: async (data) => {
+    const response = await fetch(`${API_BASE_URL}/addFilledSeats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
   // Get movie trailer by movieId
   getMovieTrailer: async (movieId) => {
     const response = await fetch(`${API_BASE_URL}/getMovieTrailer/${movieId}`, {

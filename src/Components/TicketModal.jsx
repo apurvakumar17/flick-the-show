@@ -13,7 +13,7 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
         const fetchPoster = async () => {
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}`
+                    `https://api.themoviedb.org/3/movie/${movie.movieId}?api_key=${API_KEY}`
                 );
                 const data = await res.json();
                 if (data.poster_path) {
@@ -33,9 +33,9 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
     if (!isOpen || !movie) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm ">
             <div
-                className="relative rounded-2xl p-6 w-[90%] max-w-md shadow-2xl border border-yellow-400 bg-cover bg-center"
+                className="relative rounded-2xl p-6 w-[90%] max-w-md shadow-2xl border border-yellow-400 bg-cover bg-center h-[70%]"
                 style={{
                     backgroundImage: poster
                         ? `url(${poster})`
@@ -70,17 +70,10 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
                         </div>
                     </div>
 
-                    {/* QR Code */}
-                    <div className="flex justify-center mb-4">
-                        <img
-                            src={movie.qrUrl}
-                            alt="QR Code"
-                            className="w-40 h-40 rounded-md bg-white p-2"
-                        />
-                    </div>
+                    {/* Poster already shown as background and thumbnail */}
 
                     {/* Ticket Details */}
-                    <div className="space-y-2 text-sm text-white">
+                    <div className="space-y-2 text-sm text-white pt-70">
                         <p>
                             <span className="font-semibold">Booking ID:</span>{" "}
                             {movie.transactionId}
@@ -90,12 +83,10 @@ const TicketModal = ({ isOpen, onClose, movie }) => {
                             {movie.time}
                         </p>
                         <p>
-                            <span className="font-semibold">Theatre:</span> INOX Janak Place,
-                            District Centre, New Delhi
+                            <span className="font-semibold">Theatre:</span> {movie.theatreName || '—'}
                         </p>
                         <p>
-                            <span className="font-semibold">Screen & Seats:</span> SCREEN 2 |
-                            C11, C12, C13
+                            <span className="font-semibold">Screen & Seats:</span> {Array.isArray(movie.seats) ? movie.seats.join(', ') : '—'}
                         </p>
                     </div>
                 </div>

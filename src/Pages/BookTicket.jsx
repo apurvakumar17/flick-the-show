@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom'
 import { api } from '../services/api'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
+import { db } from '../firebase/config'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const TMDB_BASE = 'https://api.themoviedb.org/3'
@@ -16,6 +20,10 @@ function BookTicket() {
   const [step, setStep] = useState(1)
   const [selectedTheatre, setSelectedTheatre] = useState(null)
   const [selectedSeats, setSelectedSeats] = useState([])
+  const [disabledSeats, setDisabledSeats] = useState([])
+  const [selectedTheatreId, setSelectedTheatreId] = useState(null)
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
 
   const theatres = useMemo(() => ([
@@ -55,9 +63,23 @@ function BookTicket() {
     setSelectedTheatre(t)
     setSelectedSeats([])
     setStep(2)
+    ;(async () => {
+      try {
+        const theatres = await api.readTheatres()
+        const match = Array.isArray(theatres) ? theatres.find(th => th.theatreName === t.theatreName) : null
+        const filled = match?.filledSeats || match?.seatsFilled || []
+        setDisabledSeats(Array.isArray(filled) ? filled : [])
+        setSelectedTheatreId(match?._id || null)
+      } catch (e) {
+        console.error('Failed to load theatre seats', e)
+        setDisabledSeats([])
+        setSelectedTheatreId(null)
+      }
+    })()
   }
 
   const handleSeatClick = (seat) => {
+    if (disabledSeats.includes(seat)) return
     setSelectedSeats(prev =>
       prev.includes(seat)
         ? prev.filter(s => s !== seat)
@@ -65,9 +87,53 @@ function BookTicket() {
     )
   }
 
+  const handleBook = async () => {
+    if (!user) {
+      alert('Please log in to book tickets.')
+      navigate('/login')
+      return
+    }
+    if (!movie || !selectedTheatre || selectedSeats.length === 0) {
+      alert('Please select theatre and seats.')
+      return
+    }
 
-  const handleBook = () => {
-    alert(`Booking confirmed for \nMovie: ${movie?.title}\nTheatre: ${selectedTheatre?.theatreName}\nSeat: ${selectedSeats}`)
+    try {
+      const now = new Date()
+      const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+      const pad = (n) => String(n).padStart(2, '0')
+      const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+      const timeDisplay = twoHoursLater.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      const transactionId = `TXN${Math.floor(100000000 + Math.random() * 900000000)}`
+
+      const ticket = {
+        transactionId,
+        movieId: Number(id),
+        theatreName: selectedTheatre.theatreName,
+        bookDate: dateStr, // YYYY-MM-DD
+        showTime: twoHoursLater.toISOString(),
+        showTimeDisplay: timeDisplay,
+        seats: selectedSeats,
+        createdAt: serverTimestamp()
+      }
+
+      await addDoc(collection(db, 'users', user.uid, 'tickets'), ticket)
+
+      // Update theatre filled seats in backend
+      try {
+        if (selectedTheatreId) {
+          await api.addFilledSeats({ theatreId: selectedTheatreId, seats: selectedSeats })
+        }
+      } catch (e) {
+        console.error('Failed to update theatre seats:', e)
+      }
+
+      alert(`Booking confirmed!\nTXN: ${transactionId}`)
+      navigate('/user')
+    } catch (e) {
+      console.error('Failed to save ticket:', e)
+      alert('Failed to complete booking. Please try again.')
+    }
   }
 
   const SeatGrid = () => {
@@ -88,15 +154,22 @@ function BookTicket() {
             Array.from({ length: cols }, (_, c) => {
               const seat = `${rowLabel}${c + 1}`
               const isSelected = selectedSeats.includes(seat)
+              const isDisabled = disabledSeats.includes(seat)
               return (
                 <button
                   key={seat}
                   onClick={() => handleSeatClick(seat)}
                   className="aspect-square w-6 sm:w-8 rounded-md text-[9px] sm:text-[10px] flex items-center justify-center"
                   style={{
-                    background: isSelected ? 'var(--md-sys-color-primary)' : 'var(--md-sys-color-surface-variant)',
-                    color: isSelected ? 'var(--md-sys-color-on-primary)' : 'var(--md-sys-color-on-surface-variant)',
-                    border: `1px solid var(--md-sys-color-outline-variant)`
+                    background: isDisabled
+                      ? 'var(--md-sys-color-surface-container-high)'
+                      : (isSelected ? 'var(--md-sys-color-primary)' : 'var(--md-sys-color-surface-variant)'),
+                    color: isDisabled
+                      ? 'var(--md-sys-color-on-surface-variant)'
+                      : (isSelected ? 'var(--md-sys-color-on-primary)' : 'var(--md-sys-color-on-surface-variant)'),
+                    border: `1px solid var(--md-sys-color-outline-variant)`,
+                    opacity: isDisabled ? 0.5 : 1,
+                    cursor: isDisabled ? 'not-allowed' : 'pointer'
                   }}
                 >
                   {seat}
