@@ -20,16 +20,38 @@ const MovieCard = ({ movie }) => {
 
     useEffect(() => {
         const fetchPoster = async () => {
+            // Create AbortController for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/movie/${movie.movieId}?api_key=${API_KEY}`
+                    `https://api.themoviedb.org/3/movie/${movie.movieId}?api_key=${API_KEY}`,
+                    { signal: controller.signal }
                 );
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                
                 const data = await res.json();
-                if (data.poster_path) setPoster(IMAGE_BASE + data.poster_path);
-                else setPoster(null);
+                if (data.poster_path) {
+                    setPoster(IMAGE_BASE + data.poster_path);
+                } else {
+                    setPoster(null);
+                }
             } catch (err) {
-                console.error("Error fetching poster:", err);
-                setPoster(null);
+                // Handle network errors, timeouts, and other fetch errors gracefully
+                if (err.name === 'AbortError') {
+                    console.warn(`Poster fetch timeout for movie ${movie.movieId}`);
+                } else if (err.name === 'TypeError' && err.message.includes('Failed to fetch')) {
+                    console.warn(`Network error fetching poster for movie ${movie.movieId}. This may be due to network restrictions.`);
+                } else {
+                    console.warn(`Error fetching poster for movie ${movie.movieId}:`, err.message);
+                }
+                setPoster(null); // Set to null to show fallback
+            } finally {
+                clearTimeout(timeoutId);
             }
         };
 
