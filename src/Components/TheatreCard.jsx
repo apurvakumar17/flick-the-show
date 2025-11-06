@@ -22,9 +22,11 @@ const TheatreCard = ({ logoUrl, theatreName, location }) => {
       </div>
 
       {/* Button */}
-      <button className="bg-(--md-sys-color-primary) text-(--md-sys-color-on-primary) font-semibold py-2 px-4 rounded-full transition-transform duration-300 hover:scale-105 shadow-sm w-full sm:w-auto h-10">
-        Book Seats
-      </button>
+      <button
+        onClick={() => alert("Click any movie poster or search any movie")}
+        className="cursor-pointer bg-(--md-sys-color-primary) text-(--md-sys-color-on-primary) font-semibold py-2 px-4 rounded-full transition-transform duration-300 hover:scale-105 shadow-sm w-full sm:w-auto h-10"
+      >Book Seats</button>
+
     </div>
   );
 };

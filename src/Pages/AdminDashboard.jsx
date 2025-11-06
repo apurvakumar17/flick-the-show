@@ -31,7 +31,7 @@ function AdminDashboard() {
                                 alert('Failed to reset theatres');
                             }
                         }}
-                        className='px-4 py-2 rounded-lg'
+                        className='px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition'
                         style={{ background: 'var(--md-sys-color-error)', color: 'var(--md-sys-color-on-error)' }}
                     >
                         Reset All Theatres
